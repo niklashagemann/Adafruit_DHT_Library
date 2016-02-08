@@ -5,7 +5,7 @@
  * modified for Spark Core by RussGrue
  * */
 
-#include "Adafruit_DHT.h"
+#include "Adafruit_DHT_NH.h"
 
 DHT::DHT(uint8_t pin, uint8_t type, uint8_t count) {
 	_pin = pin;
@@ -27,15 +27,15 @@ float DHT::readTemperature() {
 	if (read()) {
 		switch (_type) {
 			case DHT11:
-				f = data[2];
+				f = data[3];
 				return f;
 			case DHT22:
 			case DHT21:
-				f = data[2] & 0x7F;
+				f = data[3] & 0x7F;
 				f *= 256;
-				f += data[3];
+				f += data[4];
 				f /= 10;
-				if (data[2] & 0x80)
+				if (data[3] & 0x80)
 					f *= -1;
 				return f;
 		}
